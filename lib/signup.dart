@@ -54,6 +54,7 @@ class _SignUpState extends State<SignUp> {
           ),
           Text(passwordStrength, style: TextStyle(color: passwordStrength == 'Weak Password' ? const Color.fromARGB(255, 222, 75, 65) : (passwordStrength == 'Strong Password' ? const Color.fromARGB(255, 70, 170, 88)omARGB(255, 84, 54, 8) : Colors.green))),
           ElevatedButton(onPressed: (() => signup()), child: Text('Sign Up')),
+          
         ],
       ),
     );
