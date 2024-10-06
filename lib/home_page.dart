@@ -23,7 +23,7 @@ class _HomePageState extends State<HomePage> {
 
 
   @override
-  Widget build(BuildContext context) 
+  Widget build(BuildContext context)       
   
   {
     return Scaffold
@@ -34,7 +34,7 @@ class _HomePageState extends State<HomePage> {
      ),
      floatingActionButton: FloatingActionButton(
       onPressed: (()=>signOut()),
-      child: Icon(Icons.login_rounded),
+      child: Icon(Icons.login_outlined),
       ),
     );
   }

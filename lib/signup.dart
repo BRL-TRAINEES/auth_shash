@@ -23,7 +23,7 @@ class _SignUpState extends State<SignUp> {
       });
     } else {
       setState(() {
-        passwordStrength = 'Weak Password :( ';
+        passwordStrength = 'Weak Password :(';
       }
       );
     }
@@ -60,8 +60,8 @@ class _SignUpState extends State<SignUp> {
             passwordStrength,
             style: TextStyle(
               color: passwordStrength == 'Weak Password :(' 
-                  ? const Color.fromARGB(255, 222, 75, 65) 
-                  : const Color.fromARGB(255, 70, 170, 88), 
+                  ? const Color.fromARGB(255, 229, 57, 44) 
+                  : const Color.fromARGB(255, 78, 233, 106), 
             ),
           ),
           ElevatedButton(onPressed: (() => signup()), child: Text('Sign Up')),
