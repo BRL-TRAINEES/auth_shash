@@ -16,12 +16,11 @@ class _SignUpState extends State<SignUp> {
   TextEditingController password = TextEditingController();
   String passwordStrength = '';
 
- void checkPasswordStrength(String password) {
-    if (password.length > 6 || (RegExp(r'[!@#\$%^&*(),.?":{}|<>]').hasMatch(password) && RegExp(r'[A-Z]').hasMatch(password))){
+  void checkPasswordStrength(String password) { //password power
+    if (password.length > 8 ||(password.length > 6 && RegExp(r'[!@#\$%^&*(),.?":{}|<>]').hasMatch(password) && RegExp(r'[A-Z]').hasMatch(password)) ){
       setState(() {
-        passwordStrength = 'Moderate Password';
+        passwordStrength = 'Strong Password';
       });
-    } 
     } else {
       setState(() {
         passwordStrength = 'Weak Password';
@@ -51,8 +50,9 @@ class _SignUpState extends State<SignUp> {
             controller: password,
             decoration: InputDecoration(hintText: 'Password Here'),
             onChanged: checkPasswordStrength,
+            obscureText: true, //hiding in black dots 
           ),
-          Text(passwordStrength, style: TextStyle(color: passwordStrength == 'Weak Password' ? Colors.red : (passwordStrength == 'Moderate Password' ? Colors.orange : Colors.green))),
+          Text(passwordStrength, style: TextStyle(color: passwordStrength == 'Weak Password' ? const Color.fromARGB(255, 222, 75, 65) : (passwordStrength == 'Strong Password' ? const Color.fromARGB(255, 70, 170, 88)omARGB(255, 84, 54, 8) : Colors.green))),
           ElevatedButton(onPressed: (() => signup()), child: Text('Sign Up')),
         ],
       ),
