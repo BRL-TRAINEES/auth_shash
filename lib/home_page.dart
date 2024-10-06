@@ -13,29 +13,41 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
 
   final user=FirebaseAuth.instance.currentUser;
-   
+
 
 
   signOut() async{
     await FirebaseAuth.instance.signOut();
   }
-  
+
 
 
   @override
-  Widget build(BuildContext context)       
-  
+  Widget build(BuildContext context)
+
   {
     return Scaffold
-    (
-     appBar: AppBar(title :Text("Homepage "),),
-     body:Center(
-      child:Text('${user!.email}'),
-     ),
-     floatingActionButton: FloatingActionButton(
-      onPressed: (()=>signOut()),
-      child: Icon(Icons.login_outlined),
+      (
+      appBar: AppBar(title :Text("Homepage "), backgroundColor: Colors.blueGrey,),
+      body:Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(colors:[
+            Colors.blueGrey.shade500,Colors.blueGrey.shade200,
+          ],),
+        ),
+        child:Column(
+       mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+      Text ('                         ${user!.email}                                                                 '),
+
+      SizedBox(height: 20), // Space between text and button
+      ElevatedButton(
+        onPressed: signOut,
+        child: Text('Logout'),
       ),
+      ],
+    ),
+    )
     );
   }
 }

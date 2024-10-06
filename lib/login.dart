@@ -12,56 +12,74 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  TextEditingController email = TextEditingController();
+  TextEditingController password = TextEditingController();
+  bool isLoading = false; // for the circular progress state
 
-
-  TextEditingController email=TextEditingController();
-  TextEditingController password=TextEditingController();
-  bool isloading=false;
-   signIn()async{
-    setState((){
-      isloading=true;});
+  // Sign-in function
+  signIn() async {
+    setState(() {
+      isLoading = true;
+    });
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: email.text, password: password.text);
     } on FirebaseAuthException catch (e) {
       Get.snackbar("Error", "Wrong email/password");
     }
-    setState((){
-      isloading=false;});
-    }
-  
-
+    setState(() {
+      isLoading = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return isloading?
-    Center(child: CircularProgressIndicator(),): Scaffold(
+    return isLoading
+        ? Center(child: CircularProgressIndicator())
+        : Scaffold(
+        appBar: AppBar(
+        title: Text("Login"),
+    backgroundColor: Colors.blueGrey,
+    ),
+    body: Container(
 
-     appBar: AppBar(title :Text("Login"),),
+    decoration: BoxDecoration(
+    gradient: LinearGradient(colors:
+     [
+    Colors.blueGrey.shade500,
+
+       Colors.blueGrey.shade200,
+    ],
+
+    ),
+    ),
+    child: Column(
+    children: [
+      SizedBox(height: 250,),
+
+    TextField(
+    controller: email,
+    decoration: InputDecoration(hintText :'Email Here '  , filled:true,
+      fillColor: Colors.white,),
+
+    ),
+    TextField(
+    controller: password,
+    decoration: InputDecoration(hintText :'Password Here',filled:true,fillColor: Colors.white),
+    obscureText: true,
+    ),
+    ElevatedButton(onPressed: (()=>signIn()), child: Text('Login')),
+    SizedBox(height: 30,),
+    ElevatedButton(onPressed: (()=>Get.to(SignUp())), child: Text('New? Register Here')),
+    SizedBox(height: 30,),
+    ElevatedButton(onPressed: (()=>Get.to(Forgot())), child: Text('Forgot Password?')),
+
+    ],
 
 
-     body:Column(
-      children: [
-        TextField(
-          controller: email,
-          decoration: InputDecoration(hintText :'Email Here '),
-        ),
-        TextField(
-          controller: password,
-          decoration: InputDecoration(hintText :'Password Here'),
-          obscureText: true,
-        ),
-        ElevatedButton(onPressed: (()=>signIn()), child: Text('Login')),
-        SizedBox(height: 30,),
-        ElevatedButton(onPressed: (()=>Get.to(SignUp())), child: Text('New? Register Here')),
-        SizedBox(height: 30,),
-        ElevatedButton(onPressed: (()=>Get.to(Forgot())), child: Text('Forgot Password?')),
+    ),
 
-      ],
-
-
-     ),
-     
-    );
+    ));
   }
 }
+

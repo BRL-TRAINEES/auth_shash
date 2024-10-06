@@ -44,15 +44,30 @@ class _SignUpState extends State<SignUp> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Sign Up")),
-      body: Column(
+      body: Container(
+
+        decoration: BoxDecoration(
+          gradient: LinearGradient(colors:
+          [
+            Colors.blueGrey.shade500,
+
+            Colors.blueGrey.shade200,
+          ],
+
+          ),
+        ),
+        child:Column(
         children: [
+          SizedBox(height:200),
           TextField(
             controller: email,
-            decoration: InputDecoration(hintText: 'Email Here'),
+            decoration: InputDecoration(hintText: 'Email Here' ,filled:true,
+              fillColor: Colors.white,),
           ),
           TextField(
             controller: password,
-            decoration: InputDecoration(hintText: 'Password Here'),
+            decoration: InputDecoration(hintText: 'Password Here',filled:true,
+              fillColor: Colors.white,),
             onChanged: checkPasswordStrength,
             obscureText: true, // hiding in black dots 
           ),
@@ -66,7 +81,7 @@ class _SignUpState extends State<SignUp> {
           ),
           ElevatedButton(onPressed: (() => signup()), child: Text('Sign Up')),
         ],
-      ),
+      ),),
     );
   }
 }

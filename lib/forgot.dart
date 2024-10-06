@@ -27,18 +27,29 @@ class _ForgotState extends State<Forgot>
    return Scaffold(
 
      appBar: AppBar(title :Text("Forgot password?"),),
-     body:Column(
+     body:Container(
+       decoration: BoxDecoration(
+       gradient: LinearGradient(colors:
+       [
+       Colors.blueGrey.shade500,
+
+       Colors.blueGrey.shade200,
+       ],
+       ),
+       ),
+      child:Column(
       children: [
+        SizedBox(height:290),
         TextField(
           controller: email,
-          decoration: InputDecoration(hintText :'Email Here'),
+          decoration: InputDecoration(hintText :'Email Here',filled:true,fillColor: Colors.white),
         ),
         
         ElevatedButton(onPressed: (()=>reset()), child: Text('Send Reset Link'))
       ]
 
 
-     )
+     ),),
      
     );
 }}
