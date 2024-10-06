@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'wrapper.dart';
+
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
 
@@ -11,39 +12,49 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
+  TextEditingController email = TextEditingController();
+  TextEditingController password = TextEditingController();
+  String passwordStrength = '';
 
+  void checkPasswordStrength(String password) {
+    if (password.length < 6) {
+      setState(() {
+        passwordStrength = 'Weak Password';
+      });
+    } else {
+      setState(() {
+        passwordStrength = 'Strong Password';
+      });
+    }
+  }
 
- TextEditingController email=TextEditingController();
-  TextEditingController password=TextEditingController();
-  
-   signup()async{
-    await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email.text, password: password.text,);
+  signup() async {
+    await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      email: email.text,
+      password: password.text,
+    );
     Get.offAll(Wrapper());
-   }
-
-
+  }
 
   @override
   Widget build(BuildContext context) {
-     return Scaffold(
-
-     appBar: AppBar(title :Text("Sign Up"),),
-     body:Column(
-      children: [
-        TextField(
-          controller: email,
-          decoration: InputDecoration(hintText :'Email Here'),
-        ),
-        TextField(
-          controller: password,
-          decoration: InputDecoration(hintText :'Password Here'),
-        ),
-        ElevatedButton(onPressed: (()=>signup()), child: Text('Sign Up'))
-      ]
-
-
-     )
-     
+    return Scaffold(
+      appBar: AppBar(title: Text("Sign Up")),
+      body: Column(
+        children: [
+          TextField(
+            controller: email,
+            decoration: InputDecoration(hintText: 'Email Here'),
+          ),
+          TextField(
+            controller: password,
+            decoration: InputDecoration(hintText: 'Password Here'),
+            onChanged: checkPasswordStrength,
+          ),
+          Text(passwordStrength, style: TextStyle(color: passwordStrength == 'Weak Password' ? Colors.red : Colors.green)),
+          ElevatedButton(onPressed: (() => signup()), child: Text('Sign Up')),
+        ],
+      ),
     );
   }
 }
