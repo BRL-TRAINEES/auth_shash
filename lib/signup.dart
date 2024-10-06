@@ -23,12 +23,16 @@ class _SignUpState extends State<SignUp> {
       });
     } else {
       setState(() {
-        passwordStrength = 'Weak Password :(';
-      });
+        passwordStrength = 'Weak Password :( ';
+      }
+      );
     }
+
+
   }
 
-  signup() async {
+  signup() 
+  async {
     await FirebaseAuth.instance.createUserWithEmailAndPassword(
       email: email.text,
       password: password.text,

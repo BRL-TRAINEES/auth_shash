@@ -31,17 +31,20 @@ class _LoginState extends State<Login> {
     }
   
 
+
   @override
   Widget build(BuildContext context) {
     return isloading?
     Center(child: CircularProgressIndicator(),): Scaffold(
 
      appBar: AppBar(title :Text("Login"),),
+
+
      body:Column(
       children: [
         TextField(
           controller: email,
-          decoration: InputDecoration(hintText :'Email Here'),
+          decoration: InputDecoration(hintText :'Email Here '),
         ),
         TextField(
           controller: password,

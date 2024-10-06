@@ -9,7 +9,10 @@ class Forgot extends StatefulWidget {
   State<Forgot> createState() => _ForgotState();
 }
 
-class _ForgotState extends State<Forgot> {
+
+class _ForgotState extends State<Forgot>
+
+ {
 
 
    TextEditingController email=TextEditingController();
@@ -28,7 +31,7 @@ class _ForgotState extends State<Forgot> {
       children: [
         TextField(
           controller: email,
-          decoration: InputDecoration(hintText :'Email Heree'),
+          decoration: InputDecoration(hintText :'Email Here'),
         ),
         
         ElevatedButton(onPressed: (()=>reset()), child: Text('Send Reset Link'))

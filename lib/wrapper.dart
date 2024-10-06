@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'home_page.dart';
 import 'login.dart';
+import 'verify.dart';
+
 class Wrapper extends StatefulWidget {
   const Wrapper({super.key});
 
@@ -19,11 +21,16 @@ class _WrapperState extends State<Wrapper> {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return HomePage(); // Ensure Homepage widget exists
+            print(snapshot.data);
+            if(snapshot.data!.emailVerified){
+            return HomePage(); 
           } else {
-            return Login(); // Ensure Login widget exists
+            return Verify(); 
           }
+          }return Login();
         },
+
+        
       ),
     );
   }
