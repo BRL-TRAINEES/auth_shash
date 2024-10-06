@@ -16,15 +16,25 @@ class _LoginState extends State<Login> {
 
   TextEditingController email=TextEditingController();
   TextEditingController password=TextEditingController();
-  
+  bool isloading=false;
    signIn()async{
-    await FirebaseAuth.instance.signInWithEmailAndPassword(email: email.text, password: password.text,);
-   }
-
+    setState((){
+      isloading=true;});
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: email.text, password: password.text);
+    } on FirebaseAuthException catch (e) {
+      Get.snackbar("Error", "Wrong email/password");
+    }
+    setState((){
+      isloading=false;});
+    }
+  
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return isloading?
+    Center(child: CircularProgressIndicator(),): Scaffold(
 
      appBar: AppBar(title :Text("Login"),),
      body:Column(
@@ -36,6 +46,7 @@ class _LoginState extends State<Login> {
         TextField(
           controller: password,
           decoration: InputDecoration(hintText :'Password Here'),
+          obscureText: true,
         ),
         ElevatedButton(onPressed: (()=>signIn()), child: Text('Login')),
         SizedBox(height: 30,),

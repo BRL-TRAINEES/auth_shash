@@ -28,7 +28,7 @@ class _ForgotState extends State<Forgot> {
       children: [
         TextField(
           controller: email,
-          decoration: InputDecoration(hintText :'Email Hereeeeee'),
+          decoration: InputDecoration(hintText :'Email Heree'),
         ),
         
         ElevatedButton(onPressed: (()=>reset()), child: Text('Send Reset Link'))
