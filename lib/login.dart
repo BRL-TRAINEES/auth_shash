@@ -16,7 +16,6 @@ class _LoginState extends State<Login> {
   TextEditingController password = TextEditingController();
   bool isLoading = false; // for the circular progress state
 
-  // Sign-in function
   signIn() async {
     setState(() {
       isLoading = true;
