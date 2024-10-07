@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
 
 
 class Forgot extends StatefulWidget {
@@ -18,7 +19,11 @@ class _ForgotState extends State<Forgot>
    TextEditingController email=TextEditingController();
   
    reset()async{
-    await FirebaseAuth.instance.sendPasswordResetEmail(email: email.text);
+     await FirebaseAuth.instance.sendPasswordResetEmail(email: email.text);
+    Get.snackbar('Success','Verification has been sent');
+
+      
+  
    }
 
    
