@@ -22,15 +22,18 @@ class _WrapperState extends State<Wrapper> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             print(snapshot.data);
-            if(snapshot.data!.emailVerified){
+            if(snapshot.data!.emailVerified)
+            {
             return HomePage(); 
           } else {
             return Verify(); 
           }
           }return Login();
+          
         },
 
-        
+
+
       ),
     );
   }

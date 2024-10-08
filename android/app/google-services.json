@@ -3,6 +3,7 @@
     "project_number": "408000886322",
     "project_id": "authappsecond",
     "storage_bucket": "authappsecond.appspot.com"
+    
   },
   "client": [
     {
@@ -12,7 +13,20 @@
           "package_name": "com.example.authappsecond"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "408000886322-al04cdg0ega529sb05hn3oenhcg65j65.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.authappsecond",
+            "certificate_hash": "01d0b2227dd600479a9564c4016fa94472eb5fb6"
+          }
+        },
+        {
+          "client_id": "408000886322-3tqo3rgh6ml1rc9107omrjk4604es126.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAHBY1RPDl35_eQCucyn1HPiqc0R30AdsI"
@@ -20,7 +34,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "408000886322-3tqo3rgh6ml1rc9107omrjk4604es126.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

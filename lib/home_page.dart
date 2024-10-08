@@ -30,7 +30,7 @@ class _HomePageState extends State<HomePage> {
       (
       appBar: AppBar(title :Text("Homepage "), backgroundColor: Colors.blueGrey,),
       body:Container(
-        decoration: BoxDecoration(
+        decoration: BoxDecoration(   
           gradient: LinearGradient(colors:[
             Colors.blueGrey.shade500,Colors.blueGrey.shade200,
           ],),
@@ -40,7 +40,7 @@ class _HomePageState extends State<HomePage> {
       children: [
       Text ('                         ${user!.email}                                                                 '),
 
-      SizedBox(height: 20), // Space between text and button
+      SizedBox(height: 20),
       ElevatedButton(
         onPressed: signOut,
         child: Text('Logout'),
