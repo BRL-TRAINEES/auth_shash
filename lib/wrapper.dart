@@ -24,10 +24,11 @@ class _WrapperState extends State<Wrapper> {
             print(snapshot.data);
             if(snapshot.data!.emailVerified)
             {
-            return Login();
+            return HomePage();
           } else {
             return Verify(); 
           }
+          
           }return Login();
           
         },

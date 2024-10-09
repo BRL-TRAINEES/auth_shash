@@ -43,9 +43,9 @@ class _SignUpState extends State<SignUp> {
   signup() async {
     String emailText = email.text.trim();
 
-    if (!emailText.contains('@') || !emailText.contains('.')) {
+    if (!emailText.contains('@gmail.com')) {
       setState(() {
-        errorMessage = 'Please use a valid email address!';
+        errorMessage = 'Email must be a Google Email';
       });
       return;
     }
