@@ -1,3 +1,4 @@
+import 'package:authappsecond/wrapper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -27,17 +28,24 @@ class _LoginState extends State<Login> {
     isLoading = true;
   });
   try {
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
+    UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
       email: email.text,
-      password: password.text, 
+      password: password.text,
     );
+
+    User? user = userCredential.user;
+
+    if (user != null && user.emailVerified) {
+      Get.snackbar('Success', 'Logged in successfully');
+      Get.offAll(Wrapper()); // Go to Wrapper/HomePage if verified
+    } else {
+      Get.snackbar('Error', 'Please verify your email first.');
+    }
   } on FirebaseAuthException catch (e) {
     if (e.code == 'user-not-found') {
       Get.snackbar("Error", "No user found for that email.");
     } else if (e.code == 'wrong-password') {
       Get.snackbar("Error", "Wrong password provided for that user.");
-    } else if (e.code == 'invalid-email') {
-      Get.snackbar("Error", "The email address is not valid.");
     } else {
       Get.snackbar("Error", "An unknown error occurred.");
     }
@@ -47,6 +55,7 @@ class _LoginState extends State<Login> {
     });
   }
 }
+
 
 
   Future<User?> signInWithGoogle() async {

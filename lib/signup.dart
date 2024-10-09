@@ -1,3 +1,4 @@
+import 'package:authappsecond/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -45,7 +46,7 @@ class _SignUpState extends State<SignUp> {
 
     if (!emailText.contains('@gmail.com')) {
       setState(() {
-        errorMessage = 'Email must be a Google Email';
+        errorMessage = 'Email must be a Google Email!';
       });
       return;
     }
@@ -62,7 +63,7 @@ class _SignUpState extends State<SignUp> {
         email: emailText,
         password: password.text,
       );
-      Get.offAll(Wrapper());
+      Get.offAll(Login());
     } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {
         Get.snackbar('Error', 'Email already registered!');
