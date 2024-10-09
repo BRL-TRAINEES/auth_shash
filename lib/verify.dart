@@ -11,6 +11,9 @@ class Verify extends StatefulWidget {
 }
 
 class _VerifyState extends State<Verify> {
+  bool isVerified = false;
+  String verificationMessage = '';
+
   @override
   void initState() {
     super.initState();
@@ -21,12 +24,11 @@ class _VerifyState extends State<Verify> {
     try {
       final user = FirebaseAuth.instance.currentUser!;
       await user.sendEmailVerification().then((value) {
-        Get.snackbar('Verification Link Sent', 'Please Check Your Mail');
+        Get.snackbar('Verification Link Sent', 'Please check your email.');
       });
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         Get.snackbar('Error', 'User not registered. Please sign up first.');
-
       }
     } catch (e) {
       Get.snackbar('Error', 'Something went wrong. Please try again.');
@@ -34,19 +36,77 @@ class _VerifyState extends State<Verify> {
   }
 
   reload() async {
-    await FirebaseAuth.instance.currentUser!.reload().then((value) {
-      Get.offAll(Wrapper());
+    await FirebaseAuth.instance.currentUser!.reload();
+    final user = FirebaseAuth.instance.currentUser!;
+    setState(() {
+      isVerified = user.emailVerified;
+      if (!isVerified) {
+        verificationMessage = 'Please verify your email first.';
+      } else {
+        Get.offAll(Wrapper());
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Email Verification")),
+      appBar: AppBar(
+        title: Text("Email Verification", style: TextStyle(color: Colors.black)),
+        backgroundColor: Colors.orange,
+      ),
+      backgroundColor: Colors.black,
       body: Center(
-        child: ElevatedButton(
-          onPressed: reload,
-          child: Text('I have verified'),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              CircleAvatar(
+                radius: 40.0,
+                backgroundColor: Colors.transparent,
+                child: Icon(Icons.mail_outline, size: 80, color: Colors.orange),
+              ),
+              SizedBox(height: 20.0),
+              Text(
+                "Verify your email",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 24.0,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 30.0),
+              ElevatedButton(
+                onPressed: reload,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.orange,
+                  padding: EdgeInsets.symmetric(vertical: 15.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                ),
+                child: Text(
+                  'I have verified',
+                  style: TextStyle(
+                    fontSize: 18.0,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              if (verificationMessage.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.only(top: 10.0),
+                  child: Text(
+                    verificationMessage,
+                    style: TextStyle(color: Colors.red),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+            ],
+          ),
         ),
       ),
     );

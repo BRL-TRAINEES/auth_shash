@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import 'wrapper.dart';
 
 class SignUp extends StatefulWidget {
@@ -15,29 +14,47 @@ class _SignUpState extends State<SignUp> {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   String passwordStrength = '';
-  String errorMessage = ''; // Variable to store error messages
+  String errorMessage = '';
 
   void checkPasswordStrength(String password) {
-    if (password.length > 8 || (password.length > 6 && RegExp(r'[!@#\$%^&*(),.?":{}|<>]').hasMatch(password) && RegExp(r'[A-Z]').hasMatch(password))) {
+    if (password.length < 8) {
       setState(() {
-        passwordStrength = 'Strong Password ;)';
+        passwordStrength = 'Password must be at least 8 characters long.';
+      });
+    } else if (!RegExp(r'[A-Z]').hasMatch(password)) {
+      setState(() {
+        passwordStrength = 'Password must contain at least one uppercase letter.';
+      });
+    } else if (!RegExp(r'[0-9]').hasMatch(password)) {
+      setState(() {
+        passwordStrength = 'Password must contain at least one number.';
+      });
+    } else if (!RegExp(r'[!@#\$%^&*(),.?":{}|<>]').hasMatch(password)) {
+      setState(() {
+        passwordStrength = 'Password must contain at least one special character.';
       });
     } else {
       setState(() {
-        passwordStrength = 'Weak Password :(';
+        passwordStrength = '';
       });
     }
   }
 
   signup() async {
-    String emailText = email.text.trim(); // Trim email input
+    String emailText = email.text.trim();
 
-    // Check if the email is valid
     if (!emailText.contains('@') || !emailText.contains('.')) {
       setState(() {
         errorMessage = 'Please use a valid email address!';
       });
-      return; // Stop the signup process
+      return;
+    }
+
+    if (passwordStrength.isNotEmpty) {
+      setState(() {
+        errorMessage = 'Please fix the issues in the password.';
+      });
+      return;
     }
 
     try {
@@ -47,72 +64,111 @@ class _SignUpState extends State<SignUp> {
       );
       Get.offAll(Wrapper());
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        Get.snackbar('Error', 'User not registered. Please sign up first.');
-
+      if (e.code == 'email-already-in-use') {
+        Get.snackbar('Error', 'Email already registered!');
+      } else {
+        Get.snackbar('Error', 'An error occurred. Please try again.');
       }
-      setState(() {
-        if (e.code == 'email-already-in-use') {
-          errorMessage = 'Email already registered!';
-        } else {
-          errorMessage = 'An error occurred. Please try again.';
-        }
-      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Sign Up")),
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Colors.blueGrey.shade500,
-              Colors.blueGrey.shade200,
-            ],
+      appBar: AppBar(
+        title: Text("Sign Up", style: TextStyle(color: Colors.black)),
+        backgroundColor: Colors.orange,
+      ),
+      backgroundColor: Colors.black,
+      body: Center(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                CircleAvatar(
+                  radius: 40.0,
+                  backgroundColor: Colors.transparent,
+                  child: Icon(Icons.verified_sharp, size: 80, color: Colors.orange),
+                ),
+                SizedBox(height: 20.0),
+                Text(
+                  "Sign Up for a new account",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 24.0,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 30.0),
+                TextField(
+                  controller: email,
+                  decoration: InputDecoration(
+                    hintText: 'Email',
+                    hintStyle: TextStyle(color: Colors.grey),
+                    filled: true,
+                    fillColor: Colors.grey[850],
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      borderSide: BorderSide.none,
+                    ),
+                  ),
+                  style: TextStyle(color: Colors.white),
+                ),
+                SizedBox(height: 16.0),
+                TextField(
+                  controller: password,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    hintText: 'Password',
+                    hintStyle: TextStyle(color: Colors.grey),
+                    filled: true,
+                    fillColor: Colors.grey[850],
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      borderSide: BorderSide.none,
+                    ),
+                  ),
+                  style: TextStyle(color: Colors.white),
+                  onChanged: checkPasswordStrength,
+                ),
+                if (passwordStrength.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10.0),
+                    child: Text(
+                      passwordStrength,
+                      style: TextStyle(color: Colors.red),
+                    ),
+                  ),
+                if (errorMessage.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10.0),
+                    child: Text(
+                      errorMessage,
+                      style: TextStyle(color: Colors.red),
+                    ),
+                  ),
+                SizedBox(height: 20.0),
+                ElevatedButton(
+                  onPressed: signup,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.orange,
+                    padding: EdgeInsets.symmetric(vertical: 15.0),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  ),
+                  child: Text(
+                    'Sign Up',
+                    style: TextStyle(fontSize: 18.0, color: Colors.white),
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-        child: Column(
-          children: [
-            SizedBox(height: 200),
-            TextField(
-              controller: email,
-              decoration: InputDecoration(
-                hintText: 'Email Here',
-                filled: true,
-                fillColor: Colors.white,
-              ),
-            ),
-            TextField(
-              controller: password,
-              decoration: InputDecoration(
-                hintText: 'Password Here',
-                filled: true,
-                fillColor: Colors.white,
-              ),
-              onChanged: checkPasswordStrength,
-              obscureText: true,
-            ),
-            Text(
-              passwordStrength,
-              style: TextStyle(
-                color: passwordStrength == 'Weak Password :('
-                    ? const Color.fromARGB(255, 229, 57, 44)
-                    : const Color.fromARGB(255, 78, 233, 106),
-              ),
-            ),
-            if (errorMessage.isNotEmpty) // Display error message if present
-              Text(
-                errorMessage,
-                style: TextStyle(color: Colors.red),
-              ),
-            ElevatedButton(
-              onPressed: signup,
-              child: Text('Sign Up'),
-            ),
-          ],
         ),
       ),
     );

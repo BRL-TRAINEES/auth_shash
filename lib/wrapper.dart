@@ -24,7 +24,7 @@ class _WrapperState extends State<Wrapper> {
             print(snapshot.data);
             if(snapshot.data!.emailVerified)
             {
-            return HomePage(); 
+            return Login();
           } else {
             return Verify(); 
           }
